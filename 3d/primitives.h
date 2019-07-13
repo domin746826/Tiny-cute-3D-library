@@ -10,7 +10,7 @@ extern Window wi ;
 extern GC gc ;
 
 void setPixel(int x, int y, int color) ;
-void drawHLine(Point punkt1, Point punkt2, int color) ;
+void drawHLine(Point point1, Point point2, int color) ;
 int initGraphics(int width, int height) ;
 void deinitGraphics() ;
 

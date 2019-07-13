@@ -9,16 +9,16 @@ Window ro ;
 Window wi ;
 GC gc ;
 
-void setPixel(int x, int y, int color) //pikselik
+void setPixel(int x, int y, int color)
 {
 	XSetForeground(di, gc, color);
 	XDrawPoint(di, wi, gc, x, y);
 }
 
-void drawHLine(Point punkt1, Point punkt2, int color) //linia, używana poziomo do teksturowania
+void drawHLine(Point point1, Point point2, int color) //h line used to texturing
 {
 	XSetForeground(di, gc, color);
-	XDrawLine(di, wi, gc, punkt1.x, punkt1.y, punkt2.x, punkt2.y);
+	XDrawLine(di, wi, gc, point1.x, point1.y, point2.x, point2.y);
 }
 
 int initGraphics(int width, int height)

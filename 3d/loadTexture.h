@@ -5,6 +5,6 @@
 
 using namespace std ;
 
-int loadTexture(string filename, int *table) ;
+int loadTexture(string filename, int *&table, int &width, int &height) ;
 
 #endif

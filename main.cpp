@@ -4,6 +4,7 @@
 #include "3d/loadTexture.h"
 #include "3d/Point.h"
 #include "3d/primitives.h"
+#include "3d/Texture.h"
 
 int tabelaDanychL[800] = {0} ; //do kubełka z painta tablica wartości granicznych
 int tabelaDanychH[800] = {0} ;
@@ -186,8 +187,6 @@ void drawIrregularTexture(Point punkt1, Point punkt2, Point punkt3, Point punkt4
 
 void przerysuj()
 {
-	int *teksturaraw = new int[256] ;
-	loadTexture("res/grass.bmp", teksturaraw) ;
 
 	Point punkt1 ;
 	Point punkt2 ;
@@ -203,11 +202,18 @@ void przerysuj()
 	punkt4.x = 400 ; punkt4.y = 480 ;*/
 
 	punkt1.x = 80 ; punkt1.y = 20 ;
-	punkt2.x = 260 ; punkt2.y = 20 ;
-	punkt3.x = 100 ; punkt3.y = 120 ;
-	punkt4.x = 240 ; punkt4.y = 120 ;
+	punkt2.x = 460 ; punkt2.y = 20 ;
+	punkt3.x = 100 ; punkt3.y = 420 ;
+	punkt4.x = 440 ; punkt4.y = 520 ;
 
-	drawIrregularTexture(punkt1, punkt2, punkt3, punkt4, teksturaraw) ;
+	Texture teksturka(800, 600) ;
+
+	int *teksturaraw ;
+	int txtwidth, txtheight ;
+	loadTexture("res/icon.bmp", teksturaraw, txtwidth, txtheight) ;
+	teksturka.drawIrregularTexture(punkt1, punkt2, punkt3, punkt4, txtwidth, txtheight, teksturaraw) ;
+
+	//drawIrregularTexture(punkt1, punkt2, punkt3, punkt4, teksturaraw) ;
 
 	delete[] teksturaraw ;
 }
