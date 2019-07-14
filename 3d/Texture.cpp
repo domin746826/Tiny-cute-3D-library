@@ -2,6 +2,7 @@
 *
 *   Main Texture class file
 *   Author (Discord): デビルとプログラマー、オタク#7830
+*   Author (Github): polandoDOMINO5nihon
 */
 
 #include "Texture.h"
@@ -162,14 +163,36 @@ void Texture::drawIrregularTexture(Point point1, Point point2, Point point3, Poi
 	FPoint localPoint3(point3.x, point3.y) ;
 	FPoint localPoint4(point4.x, point4.y) ;
 
-
   FPoint shift1 ;
 	FPoint shift2 ;
 	shift1 = (localPoint3 - localPoint1)/sizey ;
 	shift2 = (localPoint4 - localPoint2)/sizey ;
 
+	for(int y = 0 ; y < (sizey+1) ; y++) //fast texturing
+	{
+		FPoint xshift ;
+		xshift = (localPoint2 - localPoint1)/sizex ;
 
-	for(int y = 0 ; y < (sizey+1) ; y++)
+		for(int x = 0 ; x < (sizex+1) ; x++)
+		{
+			txtMatrix[x+y*(sizex+1)].x = localPoint1.x + xshift.x*x ;
+			txtMatrix[x+y*(sizex+1)].y = localPoint1.y + xshift.y*x ;
+		}
+		localPoint1 = localPoint1 + shift1 ;
+		localPoint2 = localPoint2 + shift2 ;
+	}
+
+	for(int y = 0 ; y < sizey ; y++)
+	{
+		for(int x = 0 ; x < sizex ; x++)
+		{
+			drawRect(txtMatrix[x+y*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1]-txtMatrix[x+y*(sizex+1)]+Point(1, 1), txt[y*(sizex)+x]) ;
+		}
+	}
+
+	//TODO auto switching between fast texturing and precious texturing
+
+	/*for(int y = 0 ; y < (sizey+1) ; y++) //precious texturing
 	{
 		//drawLine(punkt1, punkt2, 0x000000) ;
 
@@ -191,5 +214,5 @@ void Texture::drawIrregularTexture(Point point1, Point point2, Point point3, Poi
 		{
 			fillShape(txtMatrix[x+y*(sizex+1)], txtMatrix[x+y*(sizex+1)+1], txtMatrix[x+(y+1)*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1], txt[y*(sizex)+x]) ;
 		}
-	}
+	}*/
 }
