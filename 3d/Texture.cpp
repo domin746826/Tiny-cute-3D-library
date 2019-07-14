@@ -2,18 +2,53 @@
 *
 *   Main Texture class file
 *   Author (Discord): デビルとプログラマー、オタク#7830
+*   Author (Github): polandoDOMINO5nihon
 */
 
 #include "Texture.h"
+#include "primitives.h"
+#include <iostream>
 
 
-void Texture::fillShape(Point punkt1, Point punkt2, Point punkt3, Point punkt4, int color)
+void Texture::fillShape(Point point1, Point point2, Point point3, Point point4, int color)
 {
+	for(int i = 0 ; i < ySize ; i++)
+	{
+		minTable[i] = 8191 ;
+		maxTable[i] = 0 ;
+	}
+	maxMinLine(point1, point2) ;
+	maxMinLine(point3, point4) ;
 
+	maxMinLine(point1, point3) ;
+	maxMinLine(point2, point4) ;
+
+	for(int i = 0 ; i < ySize ; i++)
+	{
+		if(minTable[i] != 8191 && maxTable[i] != 0)
+		{
+			Point tmp1(minTable[i], i) ;
+			Point tmp2(maxTable[i], i) ;
+
+			drawHLine(tmp1, tmp2, color) ;
+		}
+	}
 }
 
+Texture::Texture(int screenSizex, int screenSizey)
+{
+	xSize = screenSizex ;
+	ySize = screenSizey ;
+	minTable = new int[screenSizey] ;
+	maxTable = new int[screenSizey] ;
+}
 
-void Texture::maxMinLine(Point point1, Point point2, int color)		//stolen from wiki
+Texture::~Texture()
+{
+	delete[] minTable, maxTable, txtMatrix ;
+}
+
+void Texture::maxMinLine(Point point1, Point point2)		//partially stolen from wikipedia
 {
 
 	int x1 = point1.x ;
@@ -63,7 +98,7 @@ void Texture::maxMinLine(Point point1, Point point2, int color)		//stolen from w
                  d += bi;
                  x += xi;
              }
-  			if(minTable[y] == 0)
+  			if(minTable[y] == 8191)
   			{
   				minTable[y] = x ;
   			}
@@ -71,9 +106,9 @@ void Texture::maxMinLine(Point point1, Point point2, int color)		//stolen from w
   			{
   				maxTable[y] = x ;
   			}
-  			if(x < maxTable[y])
+  			if(x < minTable[y])
   			{
-  				maxTable[y] = x ;
+  				minTable[y] = x ;
   			}
   			else if(x > maxTable[y])
   			{
@@ -99,7 +134,7 @@ void Texture::maxMinLine(Point point1, Point point2, int color)		//stolen from w
                  d += bi;
                  y += yi;
              }
-             if(minTable[y] == 0)
+             if(minTable[y] == 8191)
        			{
        				minTable[y] = x ;
        			}
@@ -107,9 +142,9 @@ void Texture::maxMinLine(Point point1, Point point2, int color)		//stolen from w
        			{
        				maxTable[y] = x ;
        			}
-       			if(x < maxTable[y])
+       			if(x < minTable[y])
        			{
-       				maxTable[y] = x ;
+       				minTable[y] = x ;
        			}
        			else if(x > maxTable[y])
        			{
@@ -121,33 +156,63 @@ void Texture::maxMinLine(Point point1, Point point2, int color)		//stolen from w
 
 void Texture::drawIrregularTexture(Point point1, Point point2, Point point3, Point point4, int sizex, int sizey, int* txt)
 {
-  Point shift1 ;
-	Point shift2 ;
-	przesunieciey1.x = (punkt3.x - punkt1.x)/16 ; przesunieciey1.y = (punkt3.y - punkt1.y)/16 ;
-	przesunieciey2.x = (punkt4.x - punkt2.x)/16 ; przesunieciey2.y = (punkt4.y - punkt2.y)/16 ;
+	txtMatrix = new Point[(sizex+1)*(sizey+1)];
 
+	FPoint localPoint1(point1.x, point1.y) ;
+	FPoint localPoint2(point2.x, point2.y) ;
+	FPoint localPoint3(point3.x, point3.y) ;
+	FPoint localPoint4(point4.x, point4.y) ;
 
-	for(int y = 0 ; y < 17 ; y++)
+  FPoint shift1 ;
+	FPoint shift2 ;
+	shift1 = (localPoint3 - localPoint1)/sizey ;
+	shift2 = (localPoint4 - localPoint2)/sizey ;
+
+	for(int y = 0 ; y < (sizey+1) ; y++) //fast texturing
+	{
+		FPoint xshift ;
+		xshift = (localPoint2 - localPoint1)/sizex ;
+
+		for(int x = 0 ; x < (sizex+1) ; x++)
+		{
+			txtMatrix[x+y*(sizex+1)].x = localPoint1.x + xshift.x*x ;
+			txtMatrix[x+y*(sizex+1)].y = localPoint1.y + xshift.y*x ;
+		}
+		localPoint1 = localPoint1 + shift1 ;
+		localPoint2 = localPoint2 + shift2 ;
+	}
+
+	for(int y = 0 ; y < sizey ; y++)
+	{
+		for(int x = 0 ; x < sizex ; x++)
+		{
+			drawRect(txtMatrix[x+y*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1]-txtMatrix[x+y*(sizex+1)]+Point(1, 1), txt[y*(sizex)+x]) ;
+		}
+	}
+
+	//TODO auto switching between fast texturing and precious texturing
+
+	/*for(int y = 0 ; y < (sizey+1) ; y++) //precious texturing
 	{
 		//drawLine(punkt1, punkt2, 0x000000) ;
 
-		Point przesunieciex ;
-		przesunieciex.x = (punkt2.x - punkt1.x)/16 ; przesunieciex.y = (punkt2.y - punkt1.y)/16 ;
+		FPoint xshift ;
+		xshift = (localPoint2 - localPoint1)/sizex ;
 
-		for(int x = 0 ; x < 17 ; x++)
+		for(int x = 0 ; x < (sizex+1) ; x++)
 		{
-			tekstura[x][y].x = punkt1.x + przesunieciex.x*x ;
-			tekstura[x][y].y = punkt1.y + przesunieciex.y*x ;
+			txtMatrix[x+y*(sizex+1)].x = localPoint1.x + xshift.x*x ;
+			txtMatrix[x+y*(sizex+1)].y = localPoint1.y + xshift.y*x ;
 		}
-		punkt1.x = punkt1.x + przesunieciey1.x ; punkt1.y = punkt1.y + przesunieciey1.y ;
-		punkt2.x = punkt2.x + przesunieciey2.x ; punkt2.y = punkt2.y + przesunieciey2.y ;
+		localPoint1 = localPoint1 + shift1 ;
+		localPoint2 = localPoint2 + shift2 ;
 	}
 
-	for(int y = 0 ; y < 16 ; y++)
+	for(int y = 0 ; y < sizey ; y++)
 	{
-		for(int x = 0 ; x < 16 ; x++)
+		for(int x = 0 ; x < sizex ; x++)
 		{
-			fillShape(tekstura[x][y], tekstura[x+1][y], tekstura[x][y+1], tekstura[x+1][y+1], txt[y*16+x]) ;
+			fillShape(txtMatrix[x+y*(sizex+1)], txtMatrix[x+y*(sizex+1)+1], txtMatrix[x+(y+1)*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1], txt[y*(sizex)+x]) ;
 		}
-	}
+	}*/
 }

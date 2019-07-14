@@ -18,4 +18,21 @@ class Point
   Point operator*(int by) ;
 };
 
+class FPoint
+{
+  public:
+     float x ;
+     float y ;
+
+  FPoint(float xpos, float ypos) ;
+  FPoint(const FPoint &point) ;
+  FPoint() ;
+  FPoint operator+(const FPoint &point) ;
+  FPoint operator-(const FPoint &point) ;
+  FPoint operator/(const FPoint &point) ;
+  FPoint operator*(const FPoint &point) ;
+  FPoint operator/(int by) ;
+  FPoint operator*(int by) ;
+};
+
 #endif

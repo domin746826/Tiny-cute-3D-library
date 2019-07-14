@@ -1,8 +1,9 @@
 /*    Tiny cute 3D library
 *
-*   Code loading texture from file to RAM
+*   Code loading texture from file to buffer
 *
 *   Author (Discord): デビルとプログラマー、オタク#7830
+*   Author (Github): polandoDOMINO5nihon
 */
 
 #include <inttypes.h>
@@ -16,9 +17,9 @@ using namespace std ;
 uint16_t read16(ifstream &file) ;
 uint32_t read32(ifstream &file) ;
 
-int loadTexture(string filename, int *table) //read texture from file to RAM
+int loadTexture(string filename, int *&table, int &width, int &height) //read texture from file to buffer
 {
-    ifstream texture_file;
+  ifstream texture_file;
 	texture_file.open(filename, ios::binary | ios::in) ;
 
    	if(!texture_file.is_open())
@@ -39,8 +40,8 @@ int loadTexture(string filename, int *table) //read texture from file to RAM
 		return -3 ;
 	}
 
-	uint32_t width = read32(texture_file) ;
-	uint32_t height = read32(texture_file) ;
+	width = read32(texture_file) ;
+	height = read32(texture_file) ;
 
 	if(read16(texture_file) != 1)	//invalid number of planes
 	{
@@ -61,8 +62,12 @@ int loadTexture(string filename, int *table) //read texture from file to RAM
 
 	//all valid
 
-	int* buffer ;
-	buffer = new int[height*width*2] ;
+  table = new int[height*width*2] ;
+  int align = 4-((width*3)%4) ; //align to 4
+  if(align == 4)
+  {
+    align = 0 ;
+  }
 
 	for(int y = height ; y > 0 ; y--)
 	{
@@ -70,31 +75,22 @@ int loadTexture(string filename, int *table) //read texture from file to RAM
 		{
 			uint8_t colour[3] = {0} ;
 			texture_file.read((char*)colour, 3) ;	//read colors
-			buffer[y*16+x] = colour[0] + colour[1]*256 + colour[2]*65536 ;
+			table[y*width+x-width] = colour[0] + colour[1]*256 + colour[2]*65536 ;
 		}
+    texture_file.read((char*)dumb, align) ; //aligned to 4, ignoring align
 	}
-
-	for(int y = 0 ; y < height ; y++)
-	{
-		for(int x = 0 ; x < width ; x++)
-		{
-			table[y*width+x] = buffer[y*width+x+16] ;
-		}
-	}
-
 	texture_file.close() ;
-	delete[] buffer ;
 	return 0 ;
 }
 
-uint16_t read16(ifstream &file)
+uint16_t read16(ifstream &file) //helper func
 {
-	uint8_t value[2] = {0} ;
-    file.read((char*)value, 2) ;
+  uint8_t value[2] = {0} ;
+  file.read((char*)value, 2) ;
 	return value[0] + value[1]*256 ;
 }
 
-uint32_t read32(ifstream &file)
+uint32_t read32(ifstream &file) //helper func
 {
 	return read16(file) + (read16(file) * 0x00010000) ;
 }
