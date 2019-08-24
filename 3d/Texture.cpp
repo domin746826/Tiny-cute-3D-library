@@ -168,7 +168,7 @@ void Texture::drawIrregularTexture(Point point1, Point point2, Point point3, Poi
 	shift1 = (localPoint3 - localPoint1)/sizey ;
 	shift2 = (localPoint4 - localPoint2)/sizey ;
 
-	for(int y = 0 ; y < (sizey+1) ; y++) //fast texturing
+	for(int y = 0 ; y < (sizey+1) ; y++)
 	{
 		FPoint xshift ;
 		xshift = (localPoint2 - localPoint1)/sizex ;
@@ -182,17 +182,19 @@ void Texture::drawIrregularTexture(Point point1, Point point2, Point point3, Poi
 		localPoint2 = localPoint2 + shift2 ;
 	}
 
-	for(int y = 0 ; y < sizey ; y++)
+	for(int y = 0 ; y < sizey ; y++)//fast texturing
 	{
 		for(int x = 0 ; x < sizex ; x++)
 		{
-			drawRect(txtMatrix[x+y*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1]-txtMatrix[x+y*(sizex+1)]+Point(1, 1), txt[y*(sizex)+x]) ;
+			//drawRect(txtMatrix[x+y*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1]-txtMatrix[x+y*(sizex+1)], txt[y*(sizex)+x]) ;
+			drawRect(txtMatrix[x+y*(sizex+1)], txtMatrix[x+(y+1)*(sizex+1)+1]-txtMatrix[x+y*(sizex+1)], txt[y*(sizex)+x]) ;
+			drawRect(txtMatrix[x+y*(sizex+1)+1], txtMatrix[x+(y+1)*(sizex+1)]-txtMatrix[x+y*(sizex+1)+1], txt[y*(sizex)+x]) ;
 		}
 	}
 
 	//TODO auto switching between fast texturing and precious texturing
-
-	/*for(int y = 0 ; y < (sizey+1) ; y++) //precious texturing
+/*
+	for(int y = 0 ; y < (sizey+1) ; y++) //precious texturing
 	{
 		//drawLine(punkt1, punkt2, 0x000000) ;
 
