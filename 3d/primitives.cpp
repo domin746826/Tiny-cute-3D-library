@@ -1,3 +1,11 @@
+/*    Tiny cute 3D library
+*
+*   Low level 2D functions, edit if you want to port my library
+*
+*   Author (Discord): デビルとプログラマー、オタク#7830
+*   Author (Github): polandoDOMINO5nihon
+*/
+
 #include "primitives.h"
 #include <X11/Xlib.h>
 #include <stdio.h>
@@ -15,14 +23,20 @@ void setPixel(int x, int y, int color)
 	XDrawPoint(di, wi, gc, x, y);
 }
 
-void drawHLine(Point point1, Point point2, int color) //h line used to texturing
+void drawHLine(Point2D point1, Point2D point2, int color) //h line used to texturing
+{
+	XSetForeground(di, gc, color);
+	XDrawLine(di, wi, gc, point1.x, point1.y, point2.x, point2.y);
+}
+
+void drawLine(Point2D point1, Point2D point2, int color)
 {
 	XSetForeground(di, gc, color);
 	XDrawLine(di, wi, gc, point1.x, point1.y, point2.x, point2.y);
 }
 
 
-void drawRect(Point location, Point size, int color)
+void drawRect(Point2D location, Point2D size, int color)
 {
 	XSetForeground(di, gc, color);
 	if(size.x > 0 && size.y > 0)

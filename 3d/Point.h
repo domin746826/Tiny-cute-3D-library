@@ -1,38 +1,47 @@
+/*    Tiny cute 3D library
+*
+*   Helper structures
+*
+*   Author (Discord): デビルとプログラマー、オタク#7830
+*   Author (Github): polandoDOMINO5nihon
+*/
+
 #ifndef POINT_H_
 #define POINT_H_
 
-class Point
-{
-  public:
-     int x ;
-     int y ;
-
-  Point(int xpos, int ypos) ;
-  Point(const Point &point) ;
-  Point() ;
-  Point operator+(const Point &point) ;
-  Point operator-(const Point &point) ;
-  Point operator/(const Point &point) ;
-  Point operator*(const Point &point) ;
-  Point operator/(int by) ;
-  Point operator*(int by) ;
-};
-
-class FPoint
+class Point2D
 {
   public:
      float x ;
      float y ;
 
-  FPoint(float xpos, float ypos) ;
-  FPoint(const FPoint &point) ;
-  FPoint() ;
-  FPoint operator+(const FPoint &point) ;
-  FPoint operator-(const FPoint &point) ;
-  FPoint operator/(const FPoint &point) ;
-  FPoint operator*(const FPoint &point) ;
-  FPoint operator/(int by) ;
-  FPoint operator*(int by) ;
+  Point2D(float xpos, float ypos) ;
+  Point2D(const Point2D &point) ;
+  Point2D() ;
+  Point2D operator+(const Point2D &point) ;
+  Point2D operator-(const Point2D &point) ;
+  Point2D operator/(const Point2D &point) ;
+  Point2D operator*(const Point2D &point) ;
+  Point2D operator/(int by) ;
+  Point2D operator*(int by) ;
+};
+
+class Point3D
+{
+  public:
+     float x ;
+     float y ;
+     float z ;
+
+  Point3D(float xpos, float ypos, float zpos) ;
+  Point3D(const Point3D &point) ;
+  Point3D() ;
+  Point3D operator+(const Point3D &point) ;
+  Point3D operator-(const Point3D &point) ;
+  Point3D operator/(const Point3D &point) ;
+  Point3D operator*(const Point3D &point) ;
+  Point3D operator/(int by) ;
+  Point3D operator*(int by) ;
 };
 
 #endif

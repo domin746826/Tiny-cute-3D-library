@@ -1,113 +1,123 @@
+/*    Tiny cute 3D library
+*
+*   Helper structures
+*
+*   Author (Discord): デビルとプログラマー、オタク#7830
+*   Author (Github): polandoDOMINO5nihon
+*/
+
 #include "Point.h"
 
-Point::Point(int xpos, int ypos)
+Point2D::Point2D(float xpos, float ypos)
 {
   x = xpos ;
   y = ypos ;
 }
 
-Point::Point(const Point &point)
+Point2D::Point2D(const Point2D &point)
 {
   x = point.x ;
   y = point.y ;
 }
 
-
-Point::Point()
+Point2D::Point2D()
 {
   x = 0 ;
   y = 0 ;
 }
 
-Point Point::operator+(const Point &point)
+Point2D Point2D::operator+(const Point2D &point)
 {
-   Point point2(x + point.x, y + point.y);
+   Point2D point2(x + point.x, y + point.y);
    return point2 ;
 }
 
-Point Point::operator-(const Point &point)
+Point2D Point2D::operator-(const Point2D &point)
 {
-   Point point2(x - point.x, y - point.y);
+   Point2D point2(x - point.x, y - point.y);
    return point2 ;
 }
 
-Point Point::operator/(const Point &point)
+Point2D Point2D::operator/(const Point2D &point)
 {
-   Point point2(x / point.x, y / point.y);
+   Point2D point2(x / point.x, y / point.y);
    return point2 ;
 }
 
-Point Point::operator*(const Point &point)
+Point2D Point2D::operator*(const Point2D &point)
 {
-   Point point2(x / point.x, y / point.y);
+   Point2D point2(x * point.x, y * point.y);
    return point2 ;
 }
 
-Point Point::operator/(int by)
+Point2D Point2D::operator/(int by)
 {
-   Point point2(x / by, y / by);
+   Point2D point2(x / by, y / by);
    return point2 ;
 }
 
-Point Point::operator*(int by)
+Point2D Point2D::operator*(int by)
 {
-   Point point2(x * by, y * by);
+   Point2D point2(x * by, y * by);
    return point2 ;
 }
 
 
 
 
-FPoint::FPoint(float xpos, float ypos)
+Point3D::Point3D(float xpos, float ypos, float zpos)
 {
   x = xpos ;
   y = ypos ;
+  z = zpos ;
 }
 
-FPoint::FPoint(const FPoint &point)
+Point3D::Point3D(const Point3D &point)
 {
   x = point.x ;
   y = point.y ;
+  z = point.z ;
 }
 
-FPoint::FPoint()
+Point3D::Point3D()
 {
   x = 0 ;
   y = 0 ;
+  z = 0 ;
 }
 
-FPoint FPoint::operator+(const FPoint &point)
+Point3D Point3D::operator+(const Point3D &point)
 {
-   FPoint point2(x + point.x, y + point.y);
+   Point3D point2(x + point.x, y + point.y, z + point.z) ;
    return point2 ;
 }
 
-FPoint FPoint::operator-(const FPoint &point)
+Point3D Point3D::operator-(const Point3D &point)
 {
-   FPoint point2(x - point.x, y - point.y);
+   Point3D point2(x - point.x, y - point.y, z - point.z) ;
    return point2 ;
 }
 
-FPoint FPoint::operator/(const FPoint &point)
+Point3D Point3D::operator/(const Point3D &point)
 {
-   FPoint point2(x / point.x, y / point.y);
+   Point3D point2(x / point.x, y / point.y, z / point.z) ;
    return point2 ;
 }
 
-FPoint FPoint::operator*(const FPoint &point)
+Point3D Point3D::operator*(const Point3D &point)
 {
-   FPoint point2(x / point.x, y / point.y);
+   Point3D point2(x * point.x, y * point.y, z * point.z) ;
    return point2 ;
 }
 
-FPoint FPoint::operator/(int by)
+Point3D Point3D::operator/(int by)
 {
-   FPoint point2(x / by, y / by);
+   Point3D point2(x / by, y / by, z / by) ;
    return point2 ;
 }
 
-FPoint FPoint::operator*(int by)
+Point3D Point3D::operator*(int by)
 {
-   FPoint point2(x * by, y * by);
+   Point3D point2(x * by, y * by, z * by) ;
    return point2 ;
 }

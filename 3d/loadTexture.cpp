@@ -17,7 +17,7 @@ using namespace std ;
 uint16_t read16(ifstream &file) ;
 uint32_t read32(ifstream &file) ;
 
-int loadTexture(string filename, int *&table, int &width, int &height) //read texture from file to buffer
+int loadTextureToRam(string filename, int *&table, int &width, int &height) //read texture from file to buffer
 {
   ifstream texture_file;
 	texture_file.open(filename, ios::binary | ios::in) ;

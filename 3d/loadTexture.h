@@ -1,10 +1,10 @@
-#ifndef OBRAZEK_H_
-#define OBRAZEK_H_
+#ifndef LOADTEXTURE_H_
+#define LOADTEXTURE_H_
 #include <string>
 #include <iostream>
 
 using namespace std ;
 
-int loadTexture(string filename, int *&table, int &width, int &height) ;
+int loadTextureToRam(string filename, int *&table, int &width, int &height) ;
 
 #endif
