@@ -1,71 +1,85 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <X11/Xlib.h>
-#include "3d/loadTexture.h"
-#include "3d/Point.h"
-#include "3d/primitives.h"
-#include "3d/Texture.h"
-#include "3d/3DObject.h"
+#include <iostream>
+#include "src/Point.h"
+#include "src/primitives.h"
+#include "src/Plate.h"
 
-D3Object d3(800, 600) ;
+using namespace std;
 
-void redraw()
+int main()
 {
+	initGraphics(1920, 1040);
+	Point3D p1(-50, 50, 50);
+	Point3D p2(50, 50, 50);
+	Point3D p3(-50, -50, 50);
+	Point3D p4(50, -50, 50);
+	Point3D p5(-50, 50, -50);
+	Point3D p6(50, 50, -50);
+	Point3D p7(-50, -50, -50);
+	Point3D p8(50, -50, -50);
 
-	Point punkt1 ;
-	Point punkt2 ;
-	Point punkt3 ;
-	Point punkt4 ;
+	Point3D rotation(0, 0.6, 0);
+	Point3D position(0, 0, -100);
 
-	//location of corners
-	//punkt 1 - upper left    |    2 - upper right
-	//punkt 3 - lower left    |    4 - lower right
-	punkt1.x = 80 ; punkt1.y = 60 ;
-	punkt2.x = 420 ; punkt2.y = 80 ;
-	punkt3.x = 100 ; punkt3.y = 400 ;
-	punkt4.x = 480 ; punkt4.y = 560 ;
+	cout << "TC3L Test" << endl;
+	Plate plate1(p1, p2, p3, p4);
+	Plate plate2(p5, p6, p7, p8);
+	Plate plate3(p5, p6, p1, p2);
+	Plate plate4(p7, p8, p3, p4);
+	Plate plate5(p5, p1, p7, p3);
+	Plate plate6(p2, p6, p4, p8);
+	plate1.setCameraRotation(rotation);
+	plate1.setCameraPosition(position);
+	plate2.setCameraRotation(rotation);
+	plate2.setCameraPosition(position);
+	plate3.setCameraRotation(rotation);
+	plate3.setCameraPosition(position);
+	plate4.setCameraRotation(rotation);
+	plate4.setCameraPosition(position);
+	plate5.setCameraRotation(rotation);
+	plate5.setCameraPosition(position);
+	plate6.setCameraRotation(rotation);
+	plate6.setCameraPosition(position);
 
-	Texture teksturka(800, 600) ;
+	plate1.render();
+	plate2.render();
+	plate3.render();
+	plate4.render();
+	plate5.render();
+	plate6.render();
 
-	int *teksturaraw ;
-	int txtwidth, txtheight ;
-	loadTexture("res/dirt.bmp", teksturaraw, txtwidth, txtheight) ; //load to buffer
-	//eksturka.drawIrregularTexture(punkt1, punkt2, punkt3, punkt4, txtwidth, txtheight, teksturaraw) ;
-	delete[] teksturaraw ;
-
-	d3.renderObject() ;
-}
-
-int main() //syf
-{
-	initGraphics(800, 600) ;
-
-	d3.loadStructureShape((char*)"TC3L:\n\
-1:-10:10:-10 10:10:-10 -10:10:10 10:10:10\n\
-2:-10:10:10 10:10:10 -10:-10:10 10:-10:10\n\
-3:10:10:10 10:10:-10 10:-10:10 10:-10:-10\n\
-4:-10:10:-10 10:10:-10 -10:-10:-10 10:-10:-10\n\
-5:-10:10:10 -10:10:-10 -10:-10:10 -10:-10:-10\n\
-6:-10:-10:-10 10:-10:-10 -10:-10:10 10:-10:10 ");
-	d3.setName((char*)"Grass") ;
-
-	redraw() ;
-
-	//Select what events the window will listen to
-	XSelectInput(di, wi, KeyPressMask | ExposureMask);
+	plate1.display();
+	plate2.display();
+	plate3.display();
+	plate4.display();
+	plate5.display();
+	plate6.display();
+	XSelectInput(di, wi, KeyPressMask | KeyReleaseMask | ExposureMask);
 	XEvent ev;
+	XMotionEvent myszelel;
+	XKeyEvent bieg;
+
 	int quit = 0;
 	while (!quit)
 	{
 		int a = XNextEvent(di, &ev);
-		if (ev.type == KeyPress)
-			quit = 1; // quit if someone presses a key
+		//int b = XQueryPointer(di, &myszelel);
+
 		if (ev.type == Expose)
 		{
-			//setPixel(10, 10, 0x00ff00); //green
-			redraw() ;
+			plate1.render();
+			plate2.render();
+			plate3.render();
+			plate4.render();
+			plate5.render();
+			plate6.render();
+
+			plate1.display();
+			plate2.display();
+			plate3.display();
+			plate4.display();
+			plate5.display();
+			plate6.display();
 		}
 	}
-	deinitGraphics() ;
 	return 0;
 }
