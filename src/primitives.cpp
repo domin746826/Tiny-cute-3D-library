@@ -63,7 +63,7 @@ void drawRect(Point2D location, Point2D size, int color)
 
 int initGraphics(int width, int height)
 {
-  	//Open Display
+  //Open Display
 	di = XOpenDisplay(getenv("DISPLAY"));
 	if (di == NULL) {
 		printf("Couldn't open display.\n");
@@ -83,7 +83,7 @@ int initGraphics(int width, int height)
 
 void deinitGraphics()
 {
-	XFreeGC(di, gc);
+  XFreeGC(di, gc);
 	XDestroyWindow(di, wi);
 	XCloseDisplay(di);
 }
