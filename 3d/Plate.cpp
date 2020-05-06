@@ -67,19 +67,21 @@ int Plate::render()
   tmpPoint3 = transform3D(tmpPoint3, camRotation);
   tmpPoint4 = transform3D(tmpPoint4, camRotation);
 
-	float t1 = -tmpPoint1.z / 20;
-	float t2 = -tmpPoint2.z / 20;
-	float t3 = -tmpPoint3.z / 20;
-	float t4 = -tmpPoint4.z / 20;
+  int f = -50;
 
-  rendPoint1.x = tmpPoint1.x / t1 + tmpPoint1.x;
-  rendPoint1.y = tmpPoint1.y / t1 + tmpPoint1.y;
-  rendPoint2.x = tmpPoint2.x / t2 + tmpPoint2.x;
-  rendPoint2.y = tmpPoint2.y / t2 + tmpPoint2.y;
-  rendPoint3.x = tmpPoint3.x / t3 + tmpPoint3.x;
-  rendPoint3.y = tmpPoint3.y / t3 + tmpPoint3.y;
-  rendPoint4.x = tmpPoint4.x / t4 + tmpPoint4.x;
-  rendPoint4.y = tmpPoint4.y / t4 + tmpPoint4.y;
+	float t1 = -tmpPoint1.z / 10;
+	float t2 = -tmpPoint2.z / 10;
+	float t3 = -tmpPoint3.z / 10;
+	float t4 = -tmpPoint4.z / 10;
+
+  rendPoint1.x = tmpPoint1.x / t1*f;
+  rendPoint1.y = tmpPoint1.y / t1*f;
+  rendPoint2.x = tmpPoint2.x / t2*f;
+  rendPoint2.y = tmpPoint2.y / t2*f;
+  rendPoint3.x = tmpPoint3.x / t3*f;
+  rendPoint3.y = tmpPoint3.y / t3*f;
+  rendPoint4.x = tmpPoint4.x / t4*f;
+  rendPoint4.y = tmpPoint4.y / t4*f;
 
   if(tmpPoint1.z > 0 || tmpPoint2.z > 0 || tmpPoint3.z > 0 || tmpPoint4.z > 0)
   {
