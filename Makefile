@@ -2,4 +2,4 @@ run: build
 	./main
 
 build:
-	g++ -o main main.cpp 3d/*.cpp -lX11
+	g++ -o main main.cpp src/*.cpp -lX11
