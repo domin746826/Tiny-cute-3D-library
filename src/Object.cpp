@@ -6,17 +6,11 @@
 void Object::addPlate(Plate plate)
 {
   allPlates.push_back(plate);
+  allPlates[allPlates.size()-1].setCameraRotation(camRotation);
+  allPlates[allPlates.size()-1].setCameraPosition(camPosition);
+  allPlates[allPlates.size()-1].setRotation(objRotation);
+  allPlates[allPlates.size()-1].setPosition(objPosition);
 }
-
-/*void Object::setCameraRotation(Point3D rotation)
-{
-  camRotation = rotation;
-}
-
-void Object::setCameraPosition(Point3D position)
-{
-  camPosition = position;
-}*/
 
 void Object::setRotation(Point3D rotation)
 {
@@ -40,8 +34,6 @@ int Object::render()
   {
     allPlates[i].setRotation(objRotation);
     allPlates[i].setPosition(objPosition);
-    allPlates[i].setCameraRotation(*camRotation);
-    allPlates[i].setCameraPosition(*camPosition);
     allPlates[i].render();
     allPlates[i].display();
   }

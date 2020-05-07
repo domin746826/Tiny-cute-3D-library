@@ -16,6 +16,8 @@ extern int sc;
 extern Window ro;
 extern Window wi;
 extern GC gc;
+extern Pixmap double_buffer;
+extern XWindowAttributes wa;
 
 void setPixel(int x, int y, int color);
 void drawHLine(Point2D point1, Point2D point2, int color);
@@ -24,5 +26,6 @@ void drawRect(Point2D location, Point2D size, int color);
 void deinitGraphics();
 Point2D getResolution();
 void drawLine(Point2D point1, Point2D point2, int color);
+void redrawBuf();
 
 #endif

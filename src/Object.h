@@ -25,7 +25,7 @@ class Object
     void addPlate(Plate plate);
     //void setCameraRotation(Point3D rotation);
     //void setCameraPosition(Point3D position);
-    Object(Point3D *rotation, Point3D *position);
+    Object(Point3D *rotation, Point3D *position); //camera rotation & position
     void setRotation(Point3D rotation);
     void setPosition(Point3D position);
     int render();
