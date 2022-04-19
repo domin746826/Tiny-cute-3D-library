@@ -16,13 +16,14 @@ class Plate
 		int* texture;
     Point2D textureSize;
     float light;
+        int color;
 
 		Point2D resolution;
 
-    Point3D objPosition, objRotation;
-    Point3D *camPosition, *camRotation;
+        Point3D objPosition, objRotation;
+        Point3D *camPosition, *camRotation;
 
-    Point3D point1, point2, point3, point4;    //library is based on only 4 point plates because of optimalisation
+        Point3D point1, point2, point3, point4;    //library is based on only 4 point plates because it's easier to understand
 		Point3D tmpPoint1, tmpPoint2, tmpPoint3, tmpPoint4;
 		Point2D rendPoint1, rendPoint2, rendPoint3, rendPoint4;
 		bool visible;
@@ -44,6 +45,7 @@ class Plate
 
     int loadTextureFromFile(char* filename);
     void loadTexture(int* txt, Point2D size);
+    void setColor(int colorToSet);
 
     int display();
 		int render();

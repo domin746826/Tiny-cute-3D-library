@@ -22,7 +22,7 @@ class Object
     Point3D *camPosition, *camRotation;
 
   public:
-    void addPlate(Plate plate);
+    void addPlate(Plate plate, int color);
     //void setCameraRotation(Point3D rotation);
     //void setCameraPosition(Point3D position);
     Object(Point3D *rotation, Point3D *position); //camera rotation & position

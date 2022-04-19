@@ -28,6 +28,11 @@ Plate::~Plate()
 
 }
 
+void Plate::setColor(int colorToSet)
+{
+    color = colorToSet;
+}
+
 Point3D Plate::transform3D(Point3D point, Point3D rotation)
 {
   float tmpPoint;
@@ -177,5 +182,5 @@ int Plate::display()
   cout << "P3: " << rendPoint3.x << "\t" << rendPoint3.y << endl;
   cout << "P4: " << rendPoint4.x << "\t" << rendPoint4.y << endl;*/
 
-  fillShape(rendPoint1, rendPoint2, rendPoint3, rendPoint4, 0xbb0000);
+  fillShape(rendPoint1, rendPoint2, rendPoint3, rendPoint4, color);
 }

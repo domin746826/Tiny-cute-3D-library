@@ -3,13 +3,14 @@
 #include "Object.h"
 #include <vector>
 
-void Object::addPlate(Plate plate)
+void Object::addPlate(Plate plate, int color)
 {
   allPlates.push_back(plate);
   allPlates[allPlates.size()-1].setCameraRotation(camRotation);
   allPlates[allPlates.size()-1].setCameraPosition(camPosition);
   allPlates[allPlates.size()-1].setRotation(objRotation);
   allPlates[allPlates.size()-1].setPosition(objPosition);
+  allPlates[allPlates.size()-1].setColor(color);
 }
 
 void Object::setRotation(Point3D rotation)
