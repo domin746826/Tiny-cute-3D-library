@@ -2,8 +2,8 @@
 *
 *   Plate render functions, position, rotate etc
 *
-*   Author (Discord): デビルとプログラマー、オタク#7830
-*   Author (Github): polandoDOMINO5nihon
+*   Author (Discord): Hisonka#4156
+*   Author (Github): domin746826
 */
 
 #include "Plate.h"
@@ -164,7 +164,7 @@ int Plate::display()
     return 0;
   }
 
-  cout << "Plate rend" << endl;
+  //cout << "Plate rend" << endl;
   Point2D centerScreen = resolution/2;
   rendPoint1 = rendPoint1 + centerScreen;
   rendPoint2 = rendPoint2 + centerScreen;
