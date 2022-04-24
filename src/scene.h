@@ -13,7 +13,7 @@ class Scene
 		int type, fov;
 
 	public:
-		Scene(int type, int fov);
+		Scene(int renderType, int renderFov);
 };
 
 

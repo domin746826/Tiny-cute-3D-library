@@ -11,9 +11,9 @@
 
 #include "scene.h"
 
-Scene::Scene(int type, int fov)
+Scene::Scene(int renderType, int renderFov)
 {
-	renderType = type;
-	renderFov = fov;
+	type = renderType;
+	fov = renderFov;
 }
 
