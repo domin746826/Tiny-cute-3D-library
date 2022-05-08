@@ -2,8 +2,8 @@
 *
 *   Plate render functions, position, rotate etc
 *
-*   Author (Discord): デビルとプログラマー、オタク#7830
-*   Author (Github): polandoDOMINO5nihon
+*   Author (Discord): Hisonka#4156
+*   Author (Github): domin746826
 */
 
 #include "Plate.h"
@@ -89,6 +89,11 @@ int Plate::render()
   rendPoint4.x = tmpPoint4.x / t4*f;
   rendPoint4.y = tmpPoint4.y / t4*f;
 
+
+  Point3D plateCenter = (tmpPoint1 + tmpPoint2 + tmpPoint3 + tmpPoint4)/4;
+
+  zPosition = (plateCenter.x*plateCenter.x + plateCenter.y*plateCenter.y + plateCenter.z*plateCenter.z); //no need to sqrt because need only to sort 
+
   if(tmpPoint1.z > 0 || tmpPoint2.z > 0 || tmpPoint3.z > 0 || tmpPoint4.z > 0)
   {
     visible = false;
@@ -157,6 +162,11 @@ void Plate::fillShape(Point2D point1, Point2D point2, Point2D point3, Point2D po
   XFillPolygon(di, double_buffer, gc, points, 4, Convex, CoordModeOrigin);
 }
 
+bool Plate::operator<(Plate& obj)
+{
+        return (getZPosition() < obj.getZPosition());
+}
+
 int Plate::display()
 {
   if(!visible)
@@ -164,7 +174,7 @@ int Plate::display()
     return 0;
   }
 
-  cout << "Plate rend" << endl;
+  //cout << "Plate rend" << endl;
   Point2D centerScreen = resolution/2;
   rendPoint1 = rendPoint1 + centerScreen;
   rendPoint2 = rendPoint2 + centerScreen;
