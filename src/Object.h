@@ -2,8 +2,8 @@
 *
 *   Object class declaration
 *
-*   Author (Discord): デビルとプログラマー、オタク#7830
-*   Author (Github): polandoDOMINO5nihon
+*   Author (Discord): Hisonka#4156
+*   Author (Github): domin746826
 */
 
 #ifndef OBJECT_H_
@@ -29,6 +29,7 @@ class Object
     void setRotation(Point3D rotation);
     void setPosition(Point3D position);
     int render();
+	vector<Plate> getPlates();
 };
 
 #endif

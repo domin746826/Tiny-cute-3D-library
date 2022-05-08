@@ -47,6 +47,8 @@ class Plate
     void loadTexture(int* txt, Point2D size);
     void setColor(int colorToSet);
 
+	bool operator<(Plate& obj);
+
     int display();
 		int render();
 

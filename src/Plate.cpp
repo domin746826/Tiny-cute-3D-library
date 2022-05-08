@@ -89,6 +89,11 @@ int Plate::render()
   rendPoint4.x = tmpPoint4.x / t4*f;
   rendPoint4.y = tmpPoint4.y / t4*f;
 
+
+  Point3D plateCenter = (tmpPoint1 + tmpPoint2 + tmpPoint3 + tmpPoint4)/4;
+
+  zPosition = (plateCenter.x*plateCenter.x + plateCenter.y*plateCenter.y + plateCenter.z*plateCenter.z); //no need to sqrt because need only to sort 
+
   if(tmpPoint1.z > 0 || tmpPoint2.z > 0 || tmpPoint3.z > 0 || tmpPoint4.z > 0)
   {
     visible = false;
@@ -155,6 +160,11 @@ void Plate::fillShape(Point2D point1, Point2D point2, Point2D point3, Point2D po
   points[2].x=point4.x; points[2].y=point4.y;
   XSetForeground(di, gc, color);
   XFillPolygon(di, double_buffer, gc, points, 4, Convex, CoordModeOrigin);
+}
+
+bool Plate::operator<(Plate& obj)
+{
+        return (getZPosition() < obj.getZPosition());
 }
 
 int Plate::display()

@@ -9,11 +9,14 @@
 class Scene
 {
 	private:
-		vector<Plate> platesArray;
+		vector<Object*> objectsArray;
 		int type, fov;
 
 	public:
 		Scene(int renderType, int renderFov);
+		void addObject(Object *object);
+		void render();
+		void display();
 };
 
 

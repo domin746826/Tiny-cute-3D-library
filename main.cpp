@@ -3,6 +3,7 @@
 #include "src/primitives.h"
 #include "src/Plate.h"
 #include "src/Object.h"
+#include "src/scene.h"
 #include <math.h>
 #include <unistd.h>
 #include <thread>
@@ -38,7 +39,6 @@ Object createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, 
 	cube.addPlate(plate4, 0x663300);
 	cube.addPlate(plate5, 0x663300);
 	cube.addPlate(plate6, 0x663300);
-
 
 
 	cube.setRotation(rotation);
@@ -78,14 +78,15 @@ Object cube5 = createCube(&camRotation, &camPosition, rotation0, position5);
 
 int fps = 0;
 clock_t msBefore = 0;
-void renderAll()
+void renderAll(Scene *scene)
 {		
     int currentMs = clock() - msBefore;
-	cube.render();
+	/*cube.render();
 	cube2.render();
 	cube3.render();
 	cube4.render();
-	cube5.render();
+	cube5.render();*/
+	scene -> render();
     XSetForeground(di, gc, 0xffffff);
 
     char fpsStr[16];
@@ -97,11 +98,12 @@ void renderAll()
 
 int main()
 {
+	Scene *scene = new Scene(PERSPECTIVE, 0);
+	scene -> addObject(&cube);
     msBefore = clock(); 
 	Point2D motion;
 	motion.x = 0; motion.y = 0;
 	initGraphics(1600, 900);
-
 
 	cout << "TC3L Test" << endl;
 
@@ -111,15 +113,10 @@ int main()
 	XKeyEvent bieg;
 
     bool autoRepeatSupported = false;
-
-    //XkbSetDetectableAutoRepeat(di, false, &autoRepeatSupported);
-	//std::thread t1(renderAll);
 	
 	int quit = 0;
 	while (!quit)
 	{
-		//int b = XQueryPointer(di, &myszelel);
-
         while(XPending(di))
         {
 		    int a = XNextEvent(di, &ev);
@@ -184,8 +181,8 @@ int main()
             }
         }
 
-        renderAll();
-        usleep(20000);
+        renderAll(scene);
+        usleep(10000);
 		moveForward(camPosition, camRotation, motion.y*5);
 		moveLeft(camPosition, camRotation, motion.x*5);
 
