@@ -2,8 +2,8 @@
 *
 *   Helper structures
 *
-*   Author (Discord): デビルとプログラマー、オタク#7830
-*   Author (Github): polandoDOMINO5nihon
+*   Author (Discord): Hisonka#4156 
+*   Author (Github): domin746826
 */
 
 #include "Point.h"

@@ -87,6 +87,7 @@ void renderAll(Scene *scene)
 	cube4.render();
 	cube5.render();*/
 	scene -> render();
+	scene -> display();
     XSetForeground(di, gc, 0xffffff);
 
     char fpsStr[16];
@@ -100,6 +101,10 @@ int main()
 {
 	Scene *scene = new Scene(PERSPECTIVE, 0);
 	scene -> addObject(&cube);
+	scene -> addObject(&cube2);
+	scene -> addObject(&cube3);
+	scene -> addObject(&cube4);
+	scene -> addObject(&cube5);
     msBefore = clock(); 
 	Point2D motion;
 	motion.x = 0; motion.y = 0;

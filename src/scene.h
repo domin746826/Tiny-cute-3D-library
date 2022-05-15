@@ -5,11 +5,13 @@
 #define PERSPECTIVE 1
 
 #include "Object.h"
+#include "Plate.h"
 
 class Scene
 {
 	private:
 		vector<Object*> objectsArray;
+		vector<Plate> platesArray;
 		int type, fov;
 
 	public:

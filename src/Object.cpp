@@ -36,6 +36,11 @@ int Object::render()
     allPlates[i].setRotation(objRotation);
     allPlates[i].setPosition(objPosition);
     allPlates[i].render();
-    allPlates[i].display();
+    //allPlates[i].display();
   }
+}
+
+vector<Plate> Object::getPlates()
+{
+	return allPlates;
 }
