@@ -32,8 +32,8 @@ int loadTextureToRam(string filename, int *&table, int &width, int &height) //re
 		return -2 ;
 	}
 
-	uint8_t dumb[20] = {0} ;
-	texture_file.read((char*)dumb, 12) ; //not used bytes
+	uint8_t dump[20] = {0} ;
+	texture_file.read((char*)dump, 12) ; //not used bytes
 
 	if(read32(texture_file) != 40) //invalid header type
 	{
@@ -58,7 +58,7 @@ int loadTextureToRam(string filename, int *&table, int &width, int &height) //re
 		return -7 ;
 	}
 
-	texture_file.read((char*)dumb, 20) ;
+	texture_file.read((char*)dump, 20) ;
 
 	//all valid
 
@@ -77,7 +77,7 @@ int loadTextureToRam(string filename, int *&table, int &width, int &height) //re
 			texture_file.read((char*)colour, 3) ;	//read colors
 			table[y*width+x-width] = colour[0] + colour[1]*256 + colour[2]*65536 ;
 		}
-    texture_file.read((char*)dumb, align) ; //aligned to 4, ignoring align
+    texture_file.read((char*)dump, align) ; //aligned to 4, ignoring align
 	}
 	texture_file.close() ;
 	return 0 ;

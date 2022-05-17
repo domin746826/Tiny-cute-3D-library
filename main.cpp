@@ -9,9 +9,11 @@
 #include <thread>
 #include <chrono>
 #include <cstring>
+#include "extras/mouse.h"
+
 
 using namespace std;
-//nie
+
 
 Object createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Point3D position)
 {
@@ -33,8 +35,8 @@ Object createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, 
 	Plate plate5(p5, p1, p7, p3);
 	Plate plate6(p2, p6, p4, p8);
 
-	cube.addPlate(plate1, 0xff0000);
-	cube.addPlate(plate2, 0xff0000);
+	cube.addPlate(plate1, 0x663300);
+	cube.addPlate(plate2, 0x663300);
 	cube.addPlate(plate3, 0x00ff00);
 	cube.addPlate(plate4, 0x663300);
 	cube.addPlate(plate5, 0x663300);
@@ -105,6 +107,17 @@ int main()
 	scene -> addObject(&cube3);
 	scene -> addObject(&cube4);
 	scene -> addObject(&cube5);
+	
+	/*Mouse *mouse = new Mouse("/dev/input/mice");
+	mouse -> init();
+
+	while(1)
+	{
+		Point2D res = mouse -> getParsed();
+		cout << res.x << "\t" << res.y << endl;
+		usleep(50000);
+	}
+*/
     msBefore = clock(); 
 	Point2D motion;
 	motion.x = 0; motion.y = 0;
@@ -124,6 +137,7 @@ int main()
 	{
         while(XPending(di))
         {
+			//motion += Mouse.getMouse();
 		    int a = XNextEvent(di, &ev);
 		    if (ev.type == Expose)
     		{
