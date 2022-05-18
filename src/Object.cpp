@@ -29,7 +29,7 @@ Object::Object(Point3D *rotation, Point3D *position)
   camPosition = position;
 }
 
-int Object::render()
+void Object::render()
 {
   for(int i = 0; i < allPlates.size(); i++)
   {

@@ -49,8 +49,8 @@ class Plate
 
 	bool operator<(Plate& obj);
 
-    int display();
-		int render();
+    void display();
+		void render();
 
 		bool isVisible();
 

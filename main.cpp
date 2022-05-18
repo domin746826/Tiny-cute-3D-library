@@ -10,14 +10,14 @@
 #include <chrono>
 #include <cstring>
 #include "extras/mouse.h"
-
+#include "src/objects/Cube.h"
 
 using namespace std;
 
 
-Object createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Point3D position)
+Cube createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Point3D position)
 {
-	Object cube(camRotation, camPosition);
+	Cube cube(camRotation, camPosition);
 
 	Point3D p1(-50, 50, 50);
 	Point3D p2(50, 50, 50);
@@ -72,11 +72,11 @@ Point3D position4(100, -100, -600);
 Point3D position5(100, -100, -1000);
 Point3D rotation0(0, 0, 0);
 
-Object cube = createCube(&camRotation, &camPosition, rotation0, position1);
-Object cube2 = createCube(&camRotation, &camPosition, rotation0, position2);
-Object cube3 = createCube(&camRotation, &camPosition, rotation0, position3);
-Object cube4 = createCube(&camRotation, &camPosition, rotation0, position4);
-Object cube5 = createCube(&camRotation, &camPosition, rotation0, position5);
+Cube cube = createCube(&camRotation, &camPosition, rotation0, position1);
+Cube cube2 = createCube(&camRotation, &camPosition, rotation0, position2);
+Cube cube3 = createCube(&camRotation, &camPosition, rotation0, position3);
+Cube cube4 = createCube(&camRotation, &camPosition, rotation0, position4);
+Cube cube5 = createCube(&camRotation, &camPosition, rotation0, position5);
 
 int fps = 0;
 clock_t msBefore = 0;
@@ -88,8 +88,8 @@ void renderAll(Scene *scene)
 	cube3.render();
 	cube4.render();
 	cube5.render();*/
-	scene -> render();
-	scene -> display();
+	scene->render();
+	scene->display();
     XSetForeground(di, gc, 0xffffff);
 
     char fpsStr[16];
@@ -102,12 +102,12 @@ void renderAll(Scene *scene)
 int main()
 {
 	Scene *scene = new Scene(PERSPECTIVE, 0);
-	scene -> addObject(&cube);
-	scene -> addObject(&cube2);
-	scene -> addObject(&cube3);
-	scene -> addObject(&cube4);
-	scene -> addObject(&cube5);
-	
+	scene->addObject(&cube);
+	scene->addObject(&cube2);
+	scene->addObject(&cube3);
+	scene->addObject(&cube4);
+	scene->addObject(&cube5);
+
 	/*Mouse *mouse = new Mouse("/dev/input/mice");
 	mouse -> init();
 

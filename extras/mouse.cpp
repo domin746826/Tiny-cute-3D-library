@@ -12,14 +12,9 @@ Mouse::Mouse(string dev)
 {
 	devName = dev;
 }
-Mouse::~Mouse()
-{
-}
 
-int Mouse::init()
-{
-}
+Mouse::~Mouse() {}
 
-Point2D Mouse::getParsed()
-{
-}
+int Mouse::init() { return 0; }
+
+Point2D Mouse::getParsed() {}
