@@ -65,7 +65,7 @@ void drawRect(Point2D location, Point2D size, int color)
 
 int initGraphics(int width, int height)
 {
-  //Open Display
+	//Open Display
 	di = XOpenDisplay(getenv("DISPLAY"));
 	if (di == NULL) {
 		printf("Couldn't open display.\n");
@@ -85,6 +85,8 @@ int initGraphics(int width, int height)
 
 	double_buffer = XCreatePixmap(di, ro,
                   wa.width, wa.height, wa.depth);
+
+	return 0;
 }
 
 void deinitGraphics()

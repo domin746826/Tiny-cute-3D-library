@@ -3,8 +3,8 @@
 #include <string>
 #include <iostream>
 
-using namespace std ;
+using namespace std;
 
-int loadTextureToRam(string filename, int *&table, int &width, int &height) ;
+int loadTextureToRam(string filename, int *&table, int &width, int &height);
 
 #endif

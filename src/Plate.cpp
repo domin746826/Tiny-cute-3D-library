@@ -23,10 +23,7 @@ Plate::Plate(Point3D p1, Point3D p2, Point3D p3, Point3D p4)
   resolution.y = 1040;
 }
 
-Plate::~Plate()
-{
-
-}
+Plate::~Plate() {}
 
 void Plate::setColor(int colorToSet)
 {
@@ -53,7 +50,7 @@ Point3D Plate::transform3D(Point3D point, Point3D rotation)
   return result;
 }
 
-int Plate::render()
+void Plate::render()
 {
   //self rotating object
   tmpPoint1 = transform3D(point1, objRotation);
@@ -94,16 +91,7 @@ int Plate::render()
 
   zPosition = (plateCenter.x*plateCenter.x + plateCenter.y*plateCenter.y + plateCenter.z*plateCenter.z); //no need to sqrt because need only to sort 
 
-  if(tmpPoint1.z > 0 || tmpPoint2.z > 0 || tmpPoint3.z > 0 || tmpPoint4.z > 0)
-  {
-    visible = false;
-    return 1;
-  }
-  else
-  {
-    visible = true;
-    return 1;
-  }
+  visible = !(tmpPoint1.z > 0 || tmpPoint2.z > 0 || tmpPoint3.z > 0 || tmpPoint4.z > 0);
 }
 
 void Plate::setLight(float lightLvl)
@@ -167,12 +155,9 @@ bool Plate::operator<(Plate& obj)
         return (getZPosition() < obj.getZPosition());
 }
 
-int Plate::display()
+void Plate::display()
 {
-  if(!visible)
-  {
-    return 0;
-  }
+  if (!visible) return;
 
   //cout << "Plate rend" << endl;
   Point2D centerScreen = resolution/2;

@@ -28,8 +28,8 @@ class Object
     Object(Point3D *rotation, Point3D *position); //camera rotation & position
     void setRotation(Point3D rotation);
     void setPosition(Point3D position);
-    int render();
-	vector<Plate> getPlates();
+    void render();
+    vector<Plate> getPlates();
 };
 
 #endif
