@@ -12,6 +12,8 @@ class Mouse
 	private:
 		string devName;
 		uint8_t buttons;
+		int fd;
+		int8_t data[3];
 	public:
 		Mouse(string dev);
 		~Mouse();

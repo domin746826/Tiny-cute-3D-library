@@ -108,19 +108,12 @@ int main()
 	scene->addObject(&cube4);
 	scene->addObject(&cube5);
 
-	/*Mouse *mouse = new Mouse("/dev/input/mice");
-	mouse -> init();
+	Mouse *mouse = new Mouse("/dev/input/mice");
+	mouse->init();
 
-	while(1)
-	{
-		Point2D res = mouse -> getParsed();
-		cout << res.x << "\t" << res.y << endl;
-		usleep(50000);
-	}
-*/
     msBefore = clock(); 
-	Point2D motion;
-	motion.x = 0; motion.y = 0;
+	Point3D motion;
+	motion.x = 0; motion.y = 0; motion.z = 0;
 	initGraphics(1600, 900);
 
 	cout << "TC3L Test" << endl;
@@ -137,29 +130,14 @@ int main()
 	{
         while(XPending(di))
         {
-			//motion += Mouse.getMouse();
+			Point2D mouseData = mouse->getParsed();
+			camRotation.x -= mouseData.y/200;
+			camRotation.y -= mouseData.x/200;
 		    int a = XNextEvent(di, &ev);
 		    if (ev.type == Expose)
     		{
                 //renderAll();			
 	    	}
-            if(ev.type == MotionNotify)
-            {
-                myszelel = ev.xmotion ;
-                float x=myszelel.x_root;
-                float y=myszelel.y_root;
-                camRotation.y = (960-x)/300 ;
-                camRotation.x = (y-540)/300 ;
-                double dump = 0 ;
-                //XClearWindow(di, wi) ;
-                /*cube.render();
-                cube2.render();
-                cube3.render();
-                cube4.render();
-                cube5.render();
-                redrawBuf();*/
-                //renderAll();
-            }
             if (ev.type == KeyPress)
             {
                 /* exit on ESC key press */
@@ -168,11 +146,19 @@ int main()
                 switch(ev.xkey.keycode)
                 {
                     case 25:
-                        motion.y = 1;
+                        motion.z = 1;
                         break;
                     case 39:
-                        motion.y = -1;
+                        motion.z = -1;
                         break;
+
+					case 65:
+						motion.y = 1;
+						break;
+
+					case 50:
+						motion.y = -1;
+						break;
 
                     case 38:
                         motion.x = 1;
@@ -188,13 +174,18 @@ int main()
                 {
                     case 25:
                     case 39:
-                        motion.y = 0;
+                        motion.z = 0;
                         break;
 
                     case 38:
                     case 40:
                         motion.x = 0;
                         break;
+
+					case 50:
+					case 65:
+						motion.y = 0;
+						break;
                 }
                 //XClearWindow(di, wi) ;
             }
@@ -202,9 +193,9 @@ int main()
 
         renderAll(scene);
         usleep(10000);
-		moveForward(camPosition, camRotation, motion.y*5);
+		moveForward(camPosition, camRotation, motion.z*5);
 		moveLeft(camPosition, camRotation, motion.x*5);
-
+		camPosition.y -= motion.y*5;
 	}
 	return 0;
 }
