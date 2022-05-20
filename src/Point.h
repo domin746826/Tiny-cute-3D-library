@@ -42,6 +42,7 @@ class Point3D
   Point3D operator*(const Point3D &point);
   Point3D operator/(int by);
   Point3D operator*(int by);
+  float distanceToZero();
 };
 
 #endif

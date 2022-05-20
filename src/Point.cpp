@@ -7,6 +7,8 @@
 */
 
 #include "Point.h"
+#include <cmath>
+
 
 Point2D::Point2D(float xpos, float ypos)
 {
@@ -121,3 +123,9 @@ Point3D Point3D::operator*(int by)
    Point3D point2(x * by, y * by, z * by) ;
    return point2 ;
 }
+
+float Point3D::distanceToZero()
+{
+	return sqrt(x*x + y*y + z*z);
+}
+

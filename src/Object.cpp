@@ -3,14 +3,13 @@
 #include "Object.h"
 #include <vector>
 
-void Object::addPlate(Plate plate, int color)
+void Object::addPlate(Plate* plate)
 {
   allPlates.push_back(plate);
-  allPlates[allPlates.size()-1].setCameraRotation(camRotation);
-  allPlates[allPlates.size()-1].setCameraPosition(camPosition);
-  allPlates[allPlates.size()-1].setRotation(objRotation);
-  allPlates[allPlates.size()-1].setPosition(objPosition);
-  allPlates[allPlates.size()-1].setColor(color);
+  allPlates[allPlates.size()-1]->setCameraRotation(camRotation);
+  allPlates[allPlates.size()-1]->setCameraPosition(camPosition);
+  allPlates[allPlates.size()-1]->setRotation(objRotation);
+  allPlates[allPlates.size()-1]->setPosition(objPosition);
 }
 
 void Object::setRotation(Point3D rotation)
@@ -33,14 +32,14 @@ void Object::render()
 {
   for(int i = 0; i < allPlates.size(); i++)
   {
-    allPlates[i].setRotation(objRotation);
-    allPlates[i].setPosition(objPosition);
-    allPlates[i].render();
+    allPlates[i]->setRotation(objRotation);
+    allPlates[i]->setPosition(objPosition);
+    allPlates[i]->render();
     //allPlates[i].display();
   }
 }
 
-vector<Plate> Object::getPlates()
+vector<Plate*> Object::getPlates()
 {
 	return allPlates;
 }

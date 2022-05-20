@@ -12,6 +12,11 @@
 #include "primitives.h"
 #include <math.h>
 
+bool inRange(Point2D num, Point2D border)
+{
+	return num.x > -border.x && num.y > -border.y && num.x < border.x && num.y < border.y;
+}
+
 Plate::Plate(Point3D p1, Point3D p2, Point3D p3, Point3D p4)
 {
   light = 1;
@@ -70,12 +75,14 @@ void Plate::render()
   tmpPoint3 = transform3D(tmpPoint3, *camRotation);
   tmpPoint4 = transform3D(tmpPoint4, *camRotation);
 
-  int f = -40;
 
-	float t1 = -tmpPoint1.z / 10;
-	float t2 = -tmpPoint2.z / 10;
-	float t3 = -tmpPoint3.z / 10;
-	float t4 = -tmpPoint4.z / 10;
+
+  int f = 40;
+
+	float t1 = tmpPoint1.z / 10;
+	float t2 = tmpPoint2.z / 10;
+	float t3 = tmpPoint3.z / 10;
+	float t4 = tmpPoint4.z / 10;
 
   rendPoint1.x = tmpPoint1.x / t1*f;
   rendPoint1.y = tmpPoint1.y / t1*f;
@@ -86,12 +93,19 @@ void Plate::render()
   rendPoint4.x = tmpPoint4.x / t4*f;
   rendPoint4.y = tmpPoint4.y / t4*f;
 
+	if(inRange(rendPoint1, resolution/2) && inRange(rendPoint1, resolution/2) && inRange(rendPoint1, resolution/2) && inRange(rendPoint1, resolution/2))
+		visible = true;
+	else
+	{
+		visible = false;
+		return;
+	}
 
   Point3D plateCenter = (tmpPoint1 + tmpPoint2 + tmpPoint3 + tmpPoint4)/4;
 
-  zPosition = (plateCenter.x*plateCenter.x + plateCenter.y*plateCenter.y + plateCenter.z*plateCenter.z); //no need to sqrt because need only to sort 
+  zPosition = (plateCenter.x*plateCenter.x + plateCenter.y*plateCenter.y + plateCenter.z*plateCenter.z); //no need to sqrt because need only to sort
 
-  visible = !(tmpPoint1.z > 0 || tmpPoint2.z > 0 || tmpPoint3.z > 0 || tmpPoint4.z > 0);
+  visible = (tmpPoint1.z < -10 && tmpPoint2.z < -10 && tmpPoint3.z < -10 && tmpPoint4.z < -10);
 }
 
 void Plate::setLight(float lightLvl)
@@ -150,10 +164,7 @@ void Plate::fillShape(Point2D point1, Point2D point2, Point2D point3, Point2D po
   XFillPolygon(di, double_buffer, gc, points, 4, Convex, CoordModeOrigin);
 }
 
-bool Plate::operator<(Plate& obj)
-{
-        return (getZPosition() < obj.getZPosition());
-}
+
 
 void Plate::display()
 {

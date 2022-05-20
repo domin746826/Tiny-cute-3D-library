@@ -2,8 +2,8 @@
 *
 *   Plate class declaration
 *
-*   Author (Discord): デビルとプログラマー、オタク#7830
-*   Author (Github): polandoDOMINO5nihon
+*   Author (Discord): Hisonka#4156
+*   Author (Github): domin746826
 */
 
 #ifndef PLATE_H_
@@ -15,15 +15,15 @@ class Plate
 	private:
 		int* texture;
     Point2D textureSize;
-    float light;
-        int color;
+		float light;
+    int color;
 
 		Point2D resolution;
 
-        Point3D objPosition, objRotation;
-        Point3D *camPosition, *camRotation;
+		Point3D objPosition, objRotation;
+    Point3D *camPosition, *camRotation;
 
-        Point3D point1, point2, point3, point4;    //library is based on only 4 point plates because it's easier to understand
+    Point3D point1, point2, point3, point4;    //library is based on only 4 point plates because it's easier to understand
 		Point3D tmpPoint1, tmpPoint2, tmpPoint3, tmpPoint4;
 		Point2D rendPoint1, rendPoint2, rendPoint3, rendPoint4;
 		bool visible;
@@ -46,8 +46,6 @@ class Plate
     int loadTextureFromFile(char* filename);
     void loadTexture(int* txt, Point2D size);
     void setColor(int colorToSet);
-
-	bool operator<(Plate& obj);
 
     void display();
 		void render();

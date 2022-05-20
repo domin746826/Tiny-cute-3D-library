@@ -4,6 +4,7 @@
 #include "src/Plate.h"
 #include "src/Object.h"
 #include "src/scene.h"
+#include "src/Camera.h"
 #include <math.h>
 #include <unistd.h>
 #include <thread>
@@ -15,9 +16,9 @@
 using namespace std;
 
 
-Cube createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Point3D position)
+Cube* createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Point3D position)
 {
-	Cube cube(camRotation, camPosition);
+	Cube* cube = new Cube(camRotation, camPosition);
 
 	Point3D p1(-50, 50, 50);
 	Point3D p2(50, 50, 50);
@@ -28,23 +29,26 @@ Cube createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Po
 	Point3D p7(-50, -50, -50);
 	Point3D p8(50, -50, -50);
 
-	Plate plate1(p1, p2, p3, p4);
-	Plate plate2(p5, p6, p7, p8);
-	Plate plate3(p5, p6, p1, p2);
-	Plate plate4(p7, p8, p3, p4);
-	Plate plate5(p5, p1, p7, p3);
-	Plate plate6(p2, p6, p4, p8);
+	Plate *px = new Plate(p2, p6, p4, p8);
+	Plate *nx = new Plate(p5, p1, p7, p3);
+	Plate *pz = new Plate(p1, p2, p3, p4);
+	Plate *nz = new Plate(p5, p6, p7, p8);
+	Plate *py = new Plate(p5, p6, p1, p2);
+	Plate *ny = new Plate(p7, p8, p3, p4);
 
-	cube.addPlate(plate1, 0x663300);
-	cube.addPlate(plate2, 0x663300);
-	cube.addPlate(plate3, 0x00ff00);
-	cube.addPlate(plate4, 0x663300);
-	cube.addPlate(plate5, 0x663300);
-	cube.addPlate(plate6, 0x663300);
+	px->setColor(0x663300);
+	nx->setColor(0x663300);
+	pz->setColor(0x663300);
+	nz->setColor(0x663300);
+	py->setColor(0x00ff00);
+	ny->setColor(0x663300);
 
+	cube->addPlate(px); cube->addPlate(nx);
+	cube->addPlate(py); cube->addPlate(ny);
+	cube->addPlate(pz); cube->addPlate(nz);
 
-	cube.setRotation(rotation);
-	cube.setPosition(position);
+	cube->setRotation(rotation);
+	cube->setPosition(position);
 
 	return cube;
 }
@@ -72,46 +76,46 @@ Point3D position4(100, -100, -600);
 Point3D position5(100, -100, -1000);
 Point3D rotation0(0, 0, 0);
 
-Cube cube = createCube(&camRotation, &camPosition, rotation0, position1);
-Cube cube2 = createCube(&camRotation, &camPosition, rotation0, position2);
-Cube cube3 = createCube(&camRotation, &camPosition, rotation0, position3);
-Cube cube4 = createCube(&camRotation, &camPosition, rotation0, position4);
-Cube cube5 = createCube(&camRotation, &camPosition, rotation0, position5);
 
 int fps = 0;
 clock_t msBefore = 0;
 void renderAll(Scene *scene)
-{		
-    int currentMs = clock() - msBefore;
-	/*cube.render();
-	cube2.render();
-	cube3.render();
-	cube4.render();
-	cube5.render();*/
+{
+	int currentMs = clock() - msBefore;
 	scene->render();
 	scene->display();
-    XSetForeground(di, gc, 0xffffff);
+	XSetForeground(di, gc, 0xffffff);
 
-    char fpsStr[16];
-    sprintf(fpsStr, "FPS: %d", 1000/currentMs);
-    XDrawString (di, double_buffer, gc, 16, 16, fpsStr, strlen(fpsStr));
+	char fpsStr[16];
+  sprintf(fpsStr, "FPS: %.0f", (float)1000/currentMs);
+  XDrawString (di, double_buffer, gc, 16, 16, fpsStr, strlen(fpsStr));
+
+	char positionStr[32];
+  sprintf(positionStr, "X: %.2f, Y: %.2f, Z: %.2f", camPosition.x, camPosition.y, camPosition.z);
+  XDrawString (di, double_buffer, gc, 16, 30, positionStr, strlen(positionStr));
 	redrawBuf();
-    msBefore = clock();
+  msBefore = clock();
 }
 
 int main()
 {
-	Scene *scene = new Scene(PERSPECTIVE, 0);
-	scene->addObject(&cube);
-	scene->addObject(&cube2);
-	scene->addObject(&cube3);
-	scene->addObject(&cube4);
-	scene->addObject(&cube5);
+	Scene *scene = new Scene();
+
+	Cube* cube = createCube(&camRotation, &camPosition, rotation0, position1);
+	Cube* cube2 = createCube(&camRotation, &camPosition, rotation0, position2);
+	Cube* cube3 = createCube(&camRotation, &camPosition, rotation0, position3);
+	Cube* cube4 = createCube(&camRotation, &camPosition, rotation0, position4);
+	Cube* cube5 = createCube(&camRotation, &camPosition, rotation0, position5);
+	scene->addObject(cube);
+	scene->addObject(cube2);
+	scene->addObject(cube3);
+	scene->addObject(cube4);
+	scene->addObject(cube5);
 
 	Mouse *mouse = new Mouse("/dev/input/mice");
 	mouse->init();
 
-    msBefore = clock(); 
+	msBefore = clock();
 	Point3D motion;
 	motion.x = 0; motion.y = 0; motion.z = 0;
 	initGraphics(1600, 900);
@@ -124,19 +128,19 @@ int main()
 	XKeyEvent bieg;
 
     bool autoRepeatSupported = false;
-	
+
 	int quit = 0;
 	while (!quit)
 	{
-        while(XPending(di))
-        {
+		while(XPending(di))
+		{
 			Point2D mouseData = mouse->getParsed();
 			camRotation.x -= mouseData.y/200;
 			camRotation.y -= mouseData.x/200;
 		    int a = XNextEvent(di, &ev);
 		    if (ev.type == Expose)
     		{
-                //renderAll();			
+                //renderAll();
 	    	}
             if (ev.type == KeyPress)
             {

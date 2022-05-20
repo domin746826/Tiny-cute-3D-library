@@ -17,19 +17,19 @@ using namespace std;
 class Object
 {
   private:
-    vector<Plate> allPlates;
+    vector<Plate*> allPlates;
     Point3D objPosition, objRotation;
     Point3D *camPosition, *camRotation;
 
   public:
-    void addPlate(Plate plate, int color);
+    void addPlate(Plate* plate);
     //void setCameraRotation(Point3D rotation);
     //void setCameraPosition(Point3D position);
     Object(Point3D *rotation, Point3D *position); //camera rotation & position
     void setRotation(Point3D rotation);
     void setPosition(Point3D position);
     void render();
-    vector<Plate> getPlates();
+    vector<Plate*> getPlates();
 };
 
 #endif
