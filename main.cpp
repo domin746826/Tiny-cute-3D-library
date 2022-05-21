@@ -12,46 +12,10 @@
 #include <cstring>
 #include "extras/mouse.h"
 #include "src/objects/Cube.h"
+#include <cstdlib>
 
 using namespace std;
 
-
-Cube* createCube(Point3D *camRotation, Point3D *camPosition, Point3D rotation, Point3D position)
-{
-	Cube* cube = new Cube(camRotation, camPosition);
-
-	Point3D p1(-50, 50, 50);
-	Point3D p2(50, 50, 50);
-	Point3D p3(-50, -50, 50);
-	Point3D p4(50, -50, 50);
-	Point3D p5(-50, 50, -50);
-	Point3D p6(50, 50, -50);
-	Point3D p7(-50, -50, -50);
-	Point3D p8(50, -50, -50);
-
-	Plate *px = new Plate(p2, p6, p4, p8);
-	Plate *nx = new Plate(p5, p1, p7, p3);
-	Plate *pz = new Plate(p1, p2, p3, p4);
-	Plate *nz = new Plate(p5, p6, p7, p8);
-	Plate *py = new Plate(p5, p6, p1, p2);
-	Plate *ny = new Plate(p7, p8, p3, p4);
-
-	px->setColor(0x663300);
-	nx->setColor(0x663300);
-	pz->setColor(0x663300);
-	nz->setColor(0x663300);
-	py->setColor(0x00ff00);
-	ny->setColor(0x663300);
-
-	cube->addPlate(px); cube->addPlate(nx);
-	cube->addPlate(py); cube->addPlate(ny);
-	cube->addPlate(pz); cube->addPlate(nz);
-
-	cube->setRotation(rotation);
-	cube->setPosition(position);
-
-	return cube;
-}
 
 void moveForward(Point3D &camPosition, Point3D &camRotation, double val)
 {
@@ -66,15 +30,9 @@ void moveLeft(Point3D &camPosition, Point3D &camRotation, double val)
 }
 
 
-Point3D camRotation(0.2, 0.5, 0);
-Point3D camPosition(0, 0, 400);
+Point3D camRotation(0.7, -0.8, 0);
+Point3D camPosition(200, -100, -200);
 
-Point3D position1(0, 0, -700);
-Point3D position2(0, 0, -600);
-Point3D position3(0, -100, -600);
-Point3D position4(100, -100, -600);
-Point3D position5(100, -100, -1000);
-Point3D rotation0(0, 0, 0);
 
 
 int fps = 0;
@@ -87,30 +45,40 @@ void renderAll(Scene *scene)
 	XSetForeground(di, gc, 0xffffff);
 
 	char fpsStr[16];
-  sprintf(fpsStr, "FPS: %.0f", (float)1000/currentMs);
-  XDrawString (di, double_buffer, gc, 16, 16, fpsStr, strlen(fpsStr));
+	sprintf(fpsStr, "FPS: %.0f", (float)1000/currentMs);
+	XDrawString (di, double_buffer, gc, 16, 16, fpsStr, strlen(fpsStr));
 
 	char positionStr[32];
-  sprintf(positionStr, "X: %.2f, Y: %.2f, Z: %.2f", camPosition.x, camPosition.y, camPosition.z);
-  XDrawString (di, double_buffer, gc, 16, 30, positionStr, strlen(positionStr));
+	sprintf(positionStr, "X: %.2f, Y: %.2f, Z: %.2f", camPosition.x, camPosition.y, camPosition.z);
+	XDrawString (di, double_buffer, gc, 16, 30, positionStr, strlen(positionStr));
 	redrawBuf();
-  msBefore = clock();
+	msBefore = clock();
 }
 
 int main()
 {
+	srand((unsigned) time(NULL)); 
 	Scene *scene = new Scene();
+	
+	Point3D position1(0, 0, 0);
+	Point3D rotation0(0, 0, 0);
 
-	Cube* cube = createCube(&camRotation, &camPosition, rotation0, position1);
-	Cube* cube2 = createCube(&camRotation, &camPosition, rotation0, position2);
-	Cube* cube3 = createCube(&camRotation, &camPosition, rotation0, position3);
-	Cube* cube4 = createCube(&camRotation, &camPosition, rotation0, position4);
-	Cube* cube5 = createCube(&camRotation, &camPosition, rotation0, position5);
-	scene->addObject(cube);
-	scene->addObject(cube2);
-	scene->addObject(cube3);
-	scene->addObject(cube4);
-	scene->addObject(cube5);
+	for(int i = 0; i < 64; i++)
+	{
+		position1.x = -rand()%800;
+		position1.y = -rand()%800;
+		position1.z = -rand()%800;
+
+		Cube *cube = new Cube(&camRotation, &camPosition, rotation0, position1, Point3D(100, 100, 100));
+		cube->setColor(CUBE_PX, 0x663300);
+		cube->setColor(CUBE_NX, 0x663300);
+		cube->setColor(CUBE_PY, 0x00FF00);
+		cube->setColor(CUBE_NY, 0x663300);
+		cube->setColor(CUBE_PZ, 0x663300);
+		cube->setColor(CUBE_NZ, 0x663300);
+		scene->addObject(cube);
+
+	}
 
 	Mouse *mouse = new Mouse("/dev/input/mice");
 	mouse->init();
@@ -197,9 +165,9 @@ int main()
 
         renderAll(scene);
         usleep(10000);
-		moveForward(camPosition, camRotation, motion.z*5);
-		moveLeft(camPosition, camRotation, motion.x*5);
-		camPosition.y -= motion.y*5;
+		moveForward(camPosition, camRotation, motion.z*10);
+		moveLeft(camPosition, camRotation, motion.x*10);
+		camPosition.y -= motion.y*10;
 	}
 	return 0;
 }
