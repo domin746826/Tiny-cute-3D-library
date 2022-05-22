@@ -37,6 +37,11 @@ void Scene::render()
 	sort(platesArray.begin(), platesArray.end(), plateCompare());
 }
 
+void Scene::addCamera(Camera *camera)
+{
+	cameraArray.push_back(camera);
+}
+
 void Scene::display()
 {
 	for(int i = platesArray.size()-1; i >= 0; i--)

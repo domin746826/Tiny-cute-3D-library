@@ -10,10 +10,20 @@ class Camera
   private:
     int cameraType, cameraId;
     int cameraFov = 60;
+	Point3D cameraRotation;
+	Point3D cameraPosition;
 
   public:
     Camera(int type, int id);
     void setFov(int fov);
+	void setRotation(Point3D rotation);
+	void setPosition(Point3D position);
+	void rotate(Point3D rotation);
+	void move(Point3D motion);
+	void moveForward(float val);
+	void moveLeft(float val);
+	Point3D* getRotation();
+	Point3D* getPosition();
 };
 
 #endif

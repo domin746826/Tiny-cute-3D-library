@@ -4,12 +4,14 @@
 
 #include "Object.h"
 #include "Plate.h"
+#include "Camera.h"
 
 class Scene
 {
 	private:
 		vector<Object*> objectsArray;
 		vector<Plate*> platesArray;
+		vector<Camera*> cameraArray;
 
 		struct plateCompare
 		{
@@ -23,6 +25,8 @@ class Scene
 		void addObject(Object *object);
 		void render();
 		void display();
+		void addCamera(Camera *camera);
+
 };
 
 

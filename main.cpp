@@ -16,7 +16,7 @@
 
 using namespace std;
 
-
+/*
 void moveForward(Point3D &camPosition, Point3D &camRotation, double val)
 {
 	camPosition.x -= sin(camRotation.y)*val;
@@ -28,9 +28,9 @@ void moveLeft(Point3D &camPosition, Point3D &camRotation, double val)
 	camPosition.x += sin(camRotation.y-1.5708)*val;
 	camPosition.z -= cos(camRotation.y-1.5708)*val;
 }
+*/
 
-
-Point3D camRotation(0.7, -0.8, 0);
+Point3D camRotation(0.7, -1, 0);
 Point3D camPosition(200, -100, -200);
 
 
@@ -59,6 +59,8 @@ int main()
 {
 	srand((unsigned) time(NULL)); 
 	Scene *scene = new Scene();
+	Camera *camera = new Camera(PERSPECTIVE, 0);
+	scene->addCamera(camera);
 	
 	Point3D position1(0, 0, 0);
 	Point3D rotation0(0, 0, 0);
@@ -165,8 +167,8 @@ int main()
 
         renderAll(scene);
         usleep(10000);
-		moveForward(camPosition, camRotation, motion.z*10);
-		moveLeft(camPosition, camRotation, motion.x*10);
+		camera->moveForward(motion.z*10);
+		camera->moveLeft(motion.x*10);
 		camPosition.y -= motion.y*10;
 	}
 	return 0;
