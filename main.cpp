@@ -16,19 +16,6 @@
 
 using namespace std;
 
-/*
-void moveForward(Point3D &camPosition, Point3D &camRotation, double val)
-{
-	camPosition.x -= sin(camRotation.y)*val;
-	camPosition.z += cos(camRotation.y)*val;
-}
-
-void moveLeft(Point3D &camPosition, Point3D &camRotation, double val)
-{
-	camPosition.x += sin(camRotation.y-1.5708)*val;
-	camPosition.z -= cos(camRotation.y-1.5708)*val;
-}
-*/
 
 Point3D camRotation(0.7, -1, 0);
 Point3D camPosition(200, -100, -200);
@@ -105,8 +92,7 @@ int main()
 		while(XPending(di))
 		{
 			Point2D mouseData = mouse->getParsed();
-			camRotation.x -= mouseData.y/200;
-			camRotation.y -= mouseData.x/200;
+			camera->rotate(Point3D(mouseData.x/200, mouseData.y/200, 0));
 		    int a = XNextEvent(di, &ev);
 		    if (ev.type == Expose)
     		{
@@ -167,9 +153,9 @@ int main()
 
         renderAll(scene);
         usleep(10000);
-		camera->moveForward(motion.z*10);
-		camera->moveLeft(motion.x*10);
-		camPosition.y -= motion.y*10;
+	camera->moveForward(motion.z*10);
+	camera->moveLeft(motion.x*10);
+	camera->move(Point3D(0, motion.y*10, 0));
 	}
 	return 0;
 }
